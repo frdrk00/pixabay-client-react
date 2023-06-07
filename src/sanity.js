@@ -28,3 +28,34 @@ export const createNewUser = async (data) => {
     return res;
   });
 };
+
+export const uploadAsset = async (asset) => {
+  let data;
+  if (
+    ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(asset.type)
+  ) {
+    data = await client.assets.upload('image', asset, {
+      contentType: asset.type,
+      filename: asset.name,
+    });
+    return data;
+  } else {
+    data = await client.assets.upload('file', asset, {
+      contentType: asset.type,
+      filename: asset.name,
+    });
+    return data;
+  }
+};
+
+export const deleteUploadedAsset = async (id) => {
+  let data = await client.delete(id);
+  return data;
+};
+
+export const savePost = async (doc) => {
+  await client.create(doc).then((res) => {
+    console.log("Saved Doc :", res);
+    return res;
+  });
+};

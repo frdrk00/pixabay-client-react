@@ -8,6 +8,7 @@ import { SET_USER } from './context/actions/userActions';
 import HomeContainer from './containers/HomeContainer';
 import Header from './components/Header';
 import MainLoader from './components/MainLoader';
+import NewPost from './containers/NewPost';
 
 function App() {
   const dispatch = useDispatch();
@@ -29,19 +30,18 @@ function App() {
   return (
     <div className="w-screen min-h-screen flex flex-col items-center justify-start">
       {isLoading ? (
-        <>
-          <MainLoader />
-        </>
+        <MainLoader />
       ) : (
         <>
-          {/* HEADER */}
+          {/* Header */}
           <Header />
 
-          {/* main content section */}
+          {/* main content sections */}
           <main className="w-full h-full flex items-center justify-center">
             {/* Routes */}
             <Routes>
-              <Route path="*" element={<HomeContainer />} />
+              <Route path="/*" element={<HomeContainer />} />
+              <Route path="/newPost/*" element={<NewPost />} />
             </Routes>
           </main>
         </>
