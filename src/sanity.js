@@ -1,5 +1,6 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
+import { fetchQuery } from './utils/supports';
 
 const client = createClient({
   projectId: '5oi7tigt',
@@ -55,7 +56,12 @@ export const deleteUploadedAsset = async (id) => {
 
 export const savePost = async (doc) => {
   await client.create(doc).then((res) => {
-    console.log("Saved Doc :", res);
+    console.log('Saved Doc :', res);
     return res;
   });
+};
+
+export const fetchFeeds = () => {
+  let data = client.fetch(fetchQuery);
+  return data;
 };
