@@ -3,7 +3,7 @@ import { BannerImage } from '../assets';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFeeds } from '../sanity';
 import { SET_FEED } from '../context/actions/feedActions';
-import { Spinner } from '../components';
+import { MasonryLayout, Spinner } from '../components';
 
 const HomeContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,15 @@ const HomeContainer = () => {
         <img src={BannerImage} className="w-full h-full object-cover" alt="" />
       </div>
 
-      {isLoading ? <Spinner /> : <>Feeds</>}
+      {isLoading ? (
+        <div className="w-full p-12 flex items-center justify-center">
+          <Spinner />
+        </div>
+      ) : (
+        <div className="w-full items-center justify-between flex-wrap gap-3 px-8 py-6">
+          <MasonryLayout feeds={feeds} />
+        </div>
+      )}
     </div>
   );
 };
