@@ -25,10 +25,15 @@ const Feed = ({ data }) => {
   };
 
   useEffect(() => {
+    // 1, [2,4,1] -> [1].length -> 1 -> !1 -> false -> !false -> true
+    // 5, [2,4,1] -> [].length -> 0 -> !0 -> true -> !true -> false
+    // !!([2,4,1].filter(num => num.value === 1).length)
+    // setAlreadySaved(data?.collections?.filter(item => item._id === user?.uid).length
     setAlreadySaved(
       !!data?.collections?.filter((item) => item._id === user?.uid).length
     );
   }, []);
+
   return (
     <div
       className="m-2 relative"

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { BannerImage } from '../assets';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFeeds } from '../sanity';
 import { SET_FEED } from '../context/actions/feedActions';
-import { MasonryLayout, Spinner } from '../components';
+import { Banner, Filter, MasonryLayout, Spinner } from '../components';
 
 const HomeContainer = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,9 +26,9 @@ const HomeContainer = () => {
 
   return (
     <div className="w-full h-[5000px]">
-      <div className="w-screen h-420 flex items-center justify-center relative">
-        <img src={BannerImage} className="w-full h-full object-cover" alt="" />
-      </div>
+      <Banner />
+
+      <Filter />
 
       {isLoading ? (
         <div className="w-full p-12 flex items-center justify-center">

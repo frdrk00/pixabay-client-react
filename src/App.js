@@ -5,10 +5,8 @@ import { createNewUser } from './sanity';
 import { firebaseAuth } from './config/firebase.config';
 import { SET_USER } from './context/actions/userActions';
 
-import HomeContainer from './containers/HomeContainer';
-import Header from './components/Header';
-import MainLoader from './components/MainLoader';
-import NewPost from './containers/NewPost';
+import { FeedDetail, Header, MainLoader } from './components';
+import { HomeContainer, NewPost, SearchContainer } from './containers';
 
 function App() {
   const dispatch = useDispatch();
@@ -18,15 +16,21 @@ function App() {
     setIsLoading(true);
     firebaseAuth.onAuthStateChanged((result) => {
       if (result) {
-        console.log('User', result?.providerData[0]);
+        console.log("User", result?.providerData[0]);
         createNewUser(result?.providerData[0]).then(() => {
-          console.log('New user created!');
+          console.log("New User Created");
           dispatch(SET_USER(result?.providerData[0]));
-          setIsLoading(false);
+          setInterval(() => {
+            setIsLoading(false);
+          }, 2000);
         });
+      } else {
+        console.log("result not", result);
       }
     });
   }, []);
+
+
   return (
     <div className="w-screen min-h-screen flex flex-col items-center justify-start">
       {isLoading ? (
@@ -42,6 +46,8 @@ function App() {
             <Routes>
               <Route path="/*" element={<HomeContainer />} />
               <Route path="/newPost/*" element={<NewPost />} />
+              <Route path="/feed-detail/:_id" element={<FeedDetail />} />
+              <Route path="/search/:searchTerm" element={<SearchContainer />} />
             </Routes>
           </main>
         </>

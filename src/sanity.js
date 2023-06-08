@@ -1,13 +1,13 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
-import { fetchQuery } from './utils/supports';
-import { v4 as uuidv4 } from "uuid";
+import { fetchDetailQuery, fetchQuery, searchQuery } from './utils/supports';
+import { v4 as uuidv4 } from 'uuid';
 
 const client = createClient({
   projectId: '5oi7tigt',
   dataset: 'production',
   apiVersion: '2023-05-23',
-  // useCdn: true,
+  useCdn: true,
   token: process.env.REACT_APP_SANITY_TOKEN,
 });
 
@@ -23,7 +23,7 @@ export const createNewUser = async (data) => {
     displayName: data.displayName,
     email: data.email,
     phoneNumber: data.phoneNumber,
-    photoURL: data.phoneURL,
+    photoURL: data.photoURL,
   };
 
   await client.createIfNotExists(_doc).then((res) => {
@@ -76,8 +76,52 @@ export const addToCollection = async (id, uid) => {
   await client
     .patch(id)
     .setIfMissing({ collections: [] })
-    .insert("after", "collections[-1]", [
-      { _key: uuidv4(), _type: "reference", _ref: uid },
+    .insert('after', 'collections[-1]', [
+      { _key: uuidv4(), _type: 'reference', _ref: uid },
     ])
     .commit();
+};
+
+export const fetchFeedDetail = async (feedID) => {
+  let query = fetchDetailQuery(feedID);
+  if (query) {
+    let data = await client.fetch(query);
+    return data;
+  }
+};
+
+
+export const addToComments = async (id, uid, comment) => {
+  const doc = {
+    _type: "comments",
+    comment,
+    users: {
+      _type: "reference",
+      _ref: uid,
+    },
+  };
+  await client.create(doc).then((com) => {
+    client
+      .patch(id)
+      .setIfMissing({ comments: [] })
+      .insert("after", "comments[-1]", [
+        {
+          _key: uuidv4(),
+          _type: "reference",
+          _ref: com._id,
+        },
+      ])
+      .commit()
+      .then((res) => {
+        console.log(res);
+      });
+  });
+};
+
+export const fetchSearchQuery = async (searchTerm) => {
+  let query = searchQuery(searchTerm);
+  if (query) {
+    let data = await client.fetch(query);
+    return data;
+  }
 };

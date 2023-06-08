@@ -3,8 +3,11 @@ import { NewPostBg } from '../assets';
 import { subMenu } from '../utils/supports';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { Collections, CreatePost, MyMedia } from '../components';
+import { useSelector } from 'react-redux';
 
 const NewPost = () => {
+  const feeds = useSelector((state) => state.feeds);
+
   return (
     <div className="w-screen h-auto flex flex-col items-center justify-center relative">
       <div className=" w-full  h-340 relative">
@@ -15,7 +18,7 @@ const NewPost = () => {
       {/* filter section */}
 
       <section className="flex flex-col w-full h-auto items-center justify-start px-6 xl:px-16 py-12">
-        <div className="w-full h-auto flex items-center justify-start overflow-x-scroll">
+        <div className="w-full h-auto flex items-center justify-start overflow-x-scroll no-scrollbar">
           <ul className="flex items-center gap-6 justify-center">
             {subMenu &&
               subMenu.map((menu) => (
@@ -38,7 +41,7 @@ const NewPost = () => {
           <Routes>
             <Route path="/upload" element={<CreatePost />} />
             <Route path="/collections" element={<Collections />} />
-            <Route path="/my-media" element={<MyMedia />} />
+            <Route path="/my-media" element={<MyMedia feeds={feeds} />} />
           </Routes>
         </div>
       </section>

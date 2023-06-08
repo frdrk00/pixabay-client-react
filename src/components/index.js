@@ -6,3 +6,7 @@ export { default as Collections } from './Collections';
 export { default as Spinner } from './Spinner';
 export { default as MasonryLayout } from './MasonryLayout';
 export { default as Feed } from './Feed';
+export { default as FeedDetail } from './FeedDetail';
+export { default as Comment } from './Comment';
+export { default as Filter } from './Filter';
+export { default as Banner } from './Banner';
