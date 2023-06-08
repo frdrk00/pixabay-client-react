@@ -85,7 +85,7 @@ export const addToCollection = async (id, uid) => {
 export const fetchFeedDetail = async (feedID) => {
   let query = fetchDetailQuery(feedID);
   if (query) {
-    let data = await client.fetch(query);
+    let data = await client.fetch(query, {mode: 'no-cors'});
     return data;
   }
 };
@@ -120,7 +120,7 @@ export const addToComments = async (id, uid, comment) => {
 export const fetchSearchQuery = async (searchTerm) => {
   let query = searchQuery(searchTerm);
   if (query) {
-    let data = await client.fetch(query);
+    let data = await client.fetch(query, {mode: 'no-cors'});
     return data;
   }
 };
