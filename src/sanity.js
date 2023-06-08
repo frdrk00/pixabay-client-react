@@ -63,7 +63,7 @@ export const savePost = async (doc) => {
 };
 
 export const fetchFeeds = () => {
-  let data = client.fetch(fetchQuery);
+  let data = client.fetch(fetchQuery, { mode: 'no-cors' });
   return data;
 };
 
@@ -90,13 +90,12 @@ export const fetchFeedDetail = async (feedID) => {
   }
 };
 
-
 export const addToComments = async (id, uid, comment) => {
   const doc = {
-    _type: "comments",
+    _type: 'comments',
     comment,
     users: {
-      _type: "reference",
+      _type: 'reference',
       _ref: uid,
     },
   };
@@ -104,10 +103,10 @@ export const addToComments = async (id, uid, comment) => {
     client
       .patch(id)
       .setIfMissing({ comments: [] })
-      .insert("after", "comments[-1]", [
+      .insert('after', 'comments[-1]', [
         {
           _key: uuidv4(),
-          _type: "reference",
+          _type: 'reference',
           _ref: com._id,
         },
       ])
